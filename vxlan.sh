@@ -8,12 +8,12 @@ Iran() {
     read -p "Enter Kharej Public IP: " remote_ip
     cat >> /etc/rc.local << EOF
 sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
-sudo ip addr add 10.0.0.1/24 dev vxlan0
+sudo ip addr add 10.0.30.1/24 dev vxlan0
 sudo ip link set up vxlan0
 EOF
     /etc/rc.local
     echo "VXLAN interface for Iran configured."
-    echo "Iran VXLAN IP: 10.0.0.1"
+    echo "Iran VXLAN IP: 10.0.30.1"
 }
 
 kharej() {
@@ -22,19 +22,20 @@ kharej() {
     read -p "Enter Iran Public IP: " remote_ip
     cat >> /etc/rc.local << EOF
 sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
-sudo ip addr add 10.0.0.2/24 dev vxlan0
+sudo ip addr add 10.0.30.2/24 dev vxlan0
 sudo ip link set up vxlan0
 EOF
     /etc/rc.local
     echo "VXLAN interface for kharej configured."
-    echo "Kharej VXLAN IP: 10.0.0.2"
+    echo "Kharej VXLAN IP: 10.0.30.2"
 }
 remove_full() {
     sudo ip link set down vxlan0
     sudo ip link delete vxlan0
-    sudo sed -i '/sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote .* dstport 4789/d' /etc/rc.local
-    sudo sed -i '/sudo ip addr add 10.0.0.2\/24 dev vxlan0/d' /etc/rc.local
-    sudo sed -i '/sudo ip link set up vxlan0/d' /etc/rc.local
+    file="/etc/rc.local"
+    sed -i '/sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote [^[:space:]]* dstport 4789/d' "$file"
+    sed -i '/sudo ip addr add [0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\/24 dev vxlan0/d' "$file"
+    sed -i '/sudo ip link set up vxlan0/d' "$file"
     echo "VXLAN interface removed."
 }
 while true; do
