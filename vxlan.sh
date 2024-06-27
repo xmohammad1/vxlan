@@ -11,6 +11,7 @@ sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
 sudo ip addr add 10.0.0.1/24 dev vxlan0
 sudo ip link set up vxlan0
 EOF
+    /etc/rc.local
     echo "VXLAN interface for Iran configured."
     echo "Iran VXLAN IP: 10.0.0.1"
 }
@@ -24,6 +25,7 @@ sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
 sudo ip addr add 10.0.0.2/24 dev vxlan0
 sudo ip link set up vxlan0
 EOF
+    /etc/rc.local
     echo "VXLAN interface for kharej configured."
     echo "Kharej VXLAN IP: 10.0.0.2"
 }
