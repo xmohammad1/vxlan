@@ -4,18 +4,24 @@ sudo apt install iproute2 bridge-utils
 }
 
 Iran() {
-sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
-sudo ip addr add 10.0.0.1/24 dev vxlan0
-sudo ip link set up vxlan0
+    read -p "Enter remote IP for Iran: " remote_ip
+    sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
+    sudo ip addr add 10.0.0.1/24 dev vxlan0
+    sudo ip link set up vxlan0
+    echo "VXLAN interface for Iran configured."
 }
 
 kharej() {
-sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
-sudo ip addr add 10.0.0.2/24 dev vxlan0
-sudo ip link set up vxlan0
+    read -p "Enter remote IP for kharej: " remote_ip
+    sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote $remote_ip dstport 4789
+    sudo ip addr add 10.0.0.2/24 dev vxlan0
+    sudo ip link set up vxlan0
+    echo "VXLAN interface for kharej configured."
 }
 remove_full() {
-    
+    sudo ip link set down vxlan0
+    sudo ip link delete vxlan0
+    echo "VXLAN interface removed."
 }
 while true; do
   echo ""
