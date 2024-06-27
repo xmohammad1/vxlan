@@ -1,6 +1,6 @@
 install_iproute() {
 sudo apt update
-sudo apt install iproute2 bridge-utils
+sudo apt install -y iproute2 bridge-utils
 }
 
 Iran() {
