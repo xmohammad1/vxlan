@@ -30,6 +30,9 @@ EOF
 remove_full() {
     sudo ip link set down vxlan0
     sudo ip link delete vxlan0
+    sudo sed -i '/sudo ip link add vxlan0 type vxlan id 10 dev eth0 remote .* dstport 4789/d' /etc/rc.local
+    sudo sed -i '/sudo ip addr add 10.0.0.2\/24 dev vxlan0/d' /etc/rc.local
+    sudo sed -i '/sudo ip link set up vxlan0/d' /etc/rc.local
     echo "VXLAN interface removed."
 }
 while true; do
